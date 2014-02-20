@@ -5,18 +5,17 @@ import string
 #grimm is the actual file I'll be working with later
 fairyTale = open("grimms.txt", "r")
 stopwords = open("stopwords.txt","r")
-grimm = {}
-storyDict = {}
-linelist = []
-stopwordlist = []
-linenum = 0
-storyNum = 0
+grimm = {} #big dictionary of words
+storyDict = {} #dictionary within dictionary of words of story titles
+linelist = [] 
+stopwordlist = [] #list of stopwords from stopwords.txt to remove from dictionary
+linenum = 0 #line number
 storytitle = ""
 querylines = {}
 
 
 def process_file(fairyTale):
-
+	""" Processes the file and breaks the lines into a list """
 	for line in stopwords:
 		line = line.strip()
 		stopwordlist.append(line)
@@ -45,8 +44,6 @@ def process_line(line, grimm):
 				global storytitle 
 				storytitle = line
 				storytitle = storytitle.strip()
-				global storyNum
-				storyNum += 1
 			else: #parses through the stories
 				global querylines
 				querylines[linenum] = line.strip()
@@ -67,7 +64,9 @@ while query != "qquit":
 	querylist = query.split()
 
 
-	def search(grimmDictionary, query):
+	def search(grimmDictionary, query): 
+		""" Search function to search the keys, or words, of the dictionary and pick up
+		its line number and line it occurs. """
 		if query in grimmDictionary.keys():
 			for qtitle, qlinenum in grimmDictionary[query].items():
 				print qtitle
@@ -78,16 +77,16 @@ while query != "qquit":
 			print "--"
 
 	def multiple_search(querylist):
-		querylen = len(querylist)
-		if querylen == 1:
+		querylen = len(querylist) 
+		if querylen == 1: #if the user inputs only one query
 			query = querylist[0]
 			search(grimmDictionary,query)
-		elif 'or' in querylist:
+		elif 'or' in querylist: #if the user inputs two queries separated by "or"
 			query = querylist[0]
 			search(grimmDictionary, query)
 			query1 = querylist[2]
 			search(grimmDictionary, query1)
-		elif "and" in querylist:
+		elif "and" in querylist: #if the user inputs two queries separated by "and"
 			query1 = querylist[0]
 			query2 = querylist[2]
 			if query1 in querylines.values():
@@ -95,7 +94,7 @@ while query != "qquit":
 					search(grimmDictionary, query2)
 			else: 
 				print "--"
-		elif querylen > 2:
+		elif querylen > 2: #more than two objects, functions the same as "and"
 			if 'or' not in querylist:
 				if 'and' not in querylist:
 					for i in range(0, querylen):
@@ -112,30 +111,6 @@ while query != "qquit":
 		# 				print "    ",listlinenum, querylines[listlinenum]
 		# 	else:
 		# 		print "--"
-
-
-
-		
-	
-
-
-
-		# if "or" in querylist:
-		# 	query2 = querylist[2]
-		# 	query0 = querylist[0]
-		# 	if (query0) in grimmDictionary.keys():
-		# 		for qtitle, qlinenum in grimmDictionary[(query0)].items():
-		# 			print qtitle
-		# 			print "  ",(query0)
-		# 			for listlinenum in qlinenum:
-		# 				print "    ",listlinenum, querylines[listlinenum]
-		# 	elif:
-		# 		print "--"
-
-
-		# elif len.querylist > 1:
-		# 	for i in range(0:len.querylist):
-		# 		if querylist[i] in grimmDictionary.keys()
 
 	multiple_search(querylist)
 
